@@ -11,6 +11,8 @@ namespace LLD {
 		class BaseString : public std::basic_string<T, std::char_traits<T>, std::allocator<T>> {
 		public:
 			using SupperType = std::basic_string<T, std::char_traits<T>, std::allocator<T>>;
+			typedef std::basic_string<T, std::char_traits<T>, std::allocator<T>> Super;
+			typedef T DataType;
 			typedef void(*Callback)(const SupperType &, int idx);
 
 			BaseString(const SupperType & value):SupperType(value){}
@@ -63,6 +65,54 @@ namespace LLD {
 				Replace(" ", "");
 				Replace("\n", "");
 				Replace("\t", "");
+			}
+
+			bool IsMeaningfulCharacter(unsigned int idx) const {
+				if (idx >= this->length()) {
+					return false;
+				}
+				switch (this->at(idx)) {
+				case ' ':
+					return false;
+				case '\n':
+					return false;
+				case '\t':
+					return false;
+				case '\r':
+					return false;\
+				case '\0':
+					return false;
+				case '\?':
+					return false;
+				default:
+					return true;
+				}
+			}
+
+			int NextMeaningfulCharacter(unsigned int idx = 0)const {
+				if (idx >= this->length()) {
+					return -1;
+				}
+				int curr_idx = idx;
+				while (curr_idx < this->length()) {
+					if (this->IsMeaningfulCharacter(curr_idx)) {
+						return curr_idx;
+					}
+					++curr_idx;
+				}
+
+				return -2;
+			}
+
+			bool IsNumber(unsigned int idx)const {
+				if (idx >= this->length()) {
+					return false;
+				}
+				T t = this->at(idx);
+				if (t >= '0' && t <= '9') {
+					return true;
+				}
+				return false;
 			}
 		};
 		
