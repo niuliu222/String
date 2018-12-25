@@ -6,7 +6,7 @@ using String = LLD::String;
 int main() {
 	
 	
-	std::string str = "123ooo456ooo789ooo147ooo258ooo369";
+	std::string str = "123ooo456ooo789 \t\nooo147ooo258ooo369";
 	std::string splitter = "ooo";
 	String Sstr = str;
 
@@ -15,7 +15,9 @@ int main() {
 	});
 
 	//LLD::String::Format
-	//std::cout << Sstr;
+	std::cout << "===========" << std::endl;
+	Sstr.Trim();
+	std::cout << Sstr;
 	std::cin.get();
 	return 0;
 }

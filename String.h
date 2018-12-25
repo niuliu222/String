@@ -49,6 +49,21 @@ namespace LLD {
 					out.push_back(ptr);
 				});
 			}
+
+
+			void Replace(const SupperType & str_old, const SupperType & str_New) {
+				while (true) {
+					int pos = 0;
+					if ((pos = this->find(str_old)) >= 0)
+						this->replace(pos, str_old.length(), str_New);
+					else   break;
+				}
+			}
+			void Trim() {
+				Replace(" ", "");
+				Replace("\n", "");
+				Replace("\t", "");
+			}
 		};
 		
 		/*
